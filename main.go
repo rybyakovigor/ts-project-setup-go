@@ -6,6 +6,7 @@ import (
 	"linters-configuration/pkg/editorconfig"
 	"linters-configuration/pkg/eslint"
 	"linters-configuration/pkg/husky"
+	"linters-configuration/pkg/lint_staged"
 	"linters-configuration/pkg/package_managers"
 	"linters-configuration/pkg/prettier"
 	"linters-configuration/pkg/stylelint"
@@ -21,5 +22,6 @@ func main() {
 	eslint.Install(command)
 	stylelint.Install(command)
 	husky.Install(command)
+	lint_staged.Install(command)
 	core.RemoveCapsInDeps()
 }

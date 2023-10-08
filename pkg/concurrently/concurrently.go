@@ -11,5 +11,5 @@ func Install(command core.PackageManagerInstallCommand) {
 func install(command core.PackageManagerInstallCommand) {
 	core.InstallLib(command, "concurrently")
 	core.WriteScript("check:all", "concurrently \"npm:check:*(!all)\"")
-	core.WriteScript("fix:all", "concurrently \"npm:check:*(!all)\"")
+	core.WriteScript("fix:all", "concurrently \"npm:fix:*(!all)\"")
 }

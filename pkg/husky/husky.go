@@ -42,7 +42,7 @@ func addPreCommitHook(command core.PackageManagerInstallCommand) {
 	hook := `#!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-{{ . }} run check:all
+{{ . }} run check:all:pre-commit
 `
 	t, err := template.New("hook").Parse(hook)
 
