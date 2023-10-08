@@ -34,6 +34,5 @@ var config = `{
   "singleQuote": true,
   "tabWidth": 2,
   "trailingComma": "es5",
-  "useTabs": false,
-  "vueIndentScriptAndStyle": false
+  "useTabs": false
 }`
