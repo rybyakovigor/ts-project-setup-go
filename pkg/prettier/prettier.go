@@ -15,8 +15,8 @@ func createConfig() {
 func Install(command core.PackageManagerInstallCommand) {
 	install(command)
 	createConfig()
-	core.WriteScript("prettier", "prettier --check src")
-	core.WriteScript("prettier:fix", "prettier --write src")
+	core.WriteScript("check:prettier", "prettier --check src")
+	core.WriteScript("fix:prettier", "prettier --write src")
 }
 
 var config = `{
@@ -34,6 +34,5 @@ var config = `{
   "singleQuote": true,
   "tabWidth": 2,
   "trailingComma": "es5",
-  "useTabs": false,
-  "vueIndentScriptAndStyle": false
+  "useTabs": false
 }`

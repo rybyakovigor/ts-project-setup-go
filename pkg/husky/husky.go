@@ -22,8 +22,8 @@ func install(command core.PackageManagerInstallCommand) {
 }
 
 func createCommitlintConfig() {
-	commitlintConfig := "module.exports = {extends: ['@commitlint/config-conventional']}"
-	core.CreateConfig("commitlint.config.js", commitlintConfig)
+	commitlintConfig := "export default { extends: ['@commitlint/config-conventional'] };"
+	core.CreateConfig("commitlint.config.ts", commitlintConfig)
 }
 
 func addCommitMsgHook() {
@@ -42,9 +42,7 @@ func addPreCommitHook(command core.PackageManagerInstallCommand) {
 	hook := `#!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-{{ . }} run lint
-{{ . }} run prettier
-{{ . }} run stylelint
+{{ . }} run check:all:pre-commit
 `
 	t, err := template.New("hook").Parse(hook)
 

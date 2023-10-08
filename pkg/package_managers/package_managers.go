@@ -11,6 +11,11 @@ var installCommandMap = map[string]core.PackageManagerInstallCommand{
 	"npm":  {"npm", "install", "--save-dev"},
 }
 
+var installAllCommandMap = map[string]core.PackageManagerInstallCommand{
+	"yarn": {"yarn", "install"},
+	"npm":  {"npm", "install"},
+}
+
 func selectPackageManager() (string, error) {
 	options := []string{"yarn", "npm"}
 
@@ -36,12 +41,12 @@ func selectPackageManager() (string, error) {
 	}
 }
 
-func Choose() core.PackageManagerInstallCommand {
+func Choose() (core.PackageManagerInstallCommand, core.PackageManagerInstallCommand) {
 	packageManager, err := selectPackageManager()
 
 	if err != nil {
 		panic(err)
 	}
 
-	return installCommandMap[packageManager]
+	return installCommandMap[packageManager], installAllCommandMap[packageManager]
 }
