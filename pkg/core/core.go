@@ -5,9 +5,12 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
+	"strings"
 )
 
 type PackageManagerInstallCommand [3]string
+
+var PACKAGE_JSON = "package.json"
 
 func CreateConfig(fileName string, config string) {
 	file, err := os.Create(fileName)
@@ -34,27 +37,62 @@ func InstallLib(command PackageManagerInstallCommand, libName string) {
 }
 
 func WriteScript(scriptName string, scriptValue string) {
-	data, err := os.ReadFile("package.json")
-	if err != nil {
-		panic(err)
-	}
-
-	var packageJSON map[string]interface{}
-	err = json.Unmarshal(data, &packageJSON)
-	if err != nil {
-		panic(err)
-	}
+	packageJSON := openJSONFile(PACKAGE_JSON)
 
 	scripts := packageJSON["scripts"].(map[string]interface{})
 	scripts[scriptName] = scriptValue
 
-	newData, err := json.MarshalIndent(packageJSON, "", "  ")
+	writeJSONFile(PACKAGE_JSON, packageJSON)
+}
+
+func RemoveCapsInDeps() {
+	packageJSON := openJSONFile(PACKAGE_JSON)
+
+	deps := packageJSON["dependencies"].(map[string]interface{})
+	devDeps := packageJSON["devDependencies"].(map[string]interface{})
+
+	removeSymbolInMap(deps, "^")
+	removeSymbolInMap(devDeps, "^")
+
+	writeJSONFile(PACKAGE_JSON, packageJSON)
+}
+
+func openJSONFile(fileName string) map[string]interface{} {
+	data, err := os.ReadFile(fileName)
 	if err != nil {
 		panic(err)
 	}
 
-	err = os.WriteFile("package.json", newData, 0644)
+	var jsonData map[string]interface{}
+	err = json.Unmarshal(data, &jsonData)
 	if err != nil {
 		panic(err)
+	}
+
+	return jsonData
+}
+
+func writeJSONFile(fileName string, jsonData map[string]interface{}) {
+	newData, err := json.MarshalIndent(jsonData, "", "  ")
+	if err != nil {
+		panic(err)
+	}
+
+	err = os.WriteFile(fileName, newData, 0644)
+	if err != nil {
+		panic(err)
+	}
+}
+
+func removeSymbolInMap(data map[string]interface{}, symbol string) {
+	keys := make([]string, 0, len(data))
+	for k := range data {
+		keys = append(keys, k)
+	}
+
+	for _, key := range keys {
+		if data[key] != nil {
+			data[key] = strings.Replace(data[key].(string), symbol, "", 1)
+		}
 	}
 }
