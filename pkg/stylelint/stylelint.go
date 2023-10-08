@@ -41,8 +41,8 @@ func Install(command core.PackageManagerInstallCommand) {
 	if answer == "yes" {
 		install(command)
 		createConfig()
-		core.WriteScript("stylelint", "stylelint src/**/*.css")
-		core.WriteScript("stylelint:fix", "stylelint src/**/*.css --fix")
+		core.WriteScript("check:stylelint", "stylelint src/**/*.css")
+		core.WriteScript("fix:stylelint", "stylelint src/**/*.css --fix")
 	}
 }
 

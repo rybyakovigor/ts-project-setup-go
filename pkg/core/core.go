@@ -3,7 +3,6 @@ package core
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"os/exec"
 )
@@ -35,7 +34,7 @@ func InstallLib(command PackageManagerInstallCommand, libName string) {
 }
 
 func WriteScript(scriptName string, scriptValue string) {
-	data, err := ioutil.ReadFile("package.json")
+	data, err := os.ReadFile("package.json")
 	if err != nil {
 		panic(err)
 	}
@@ -54,7 +53,7 @@ func WriteScript(scriptName string, scriptValue string) {
 		panic(err)
 	}
 
-	err = ioutil.WriteFile("package.json", newData, 0644)
+	err = os.WriteFile("package.json", newData, 0644)
 	if err != nil {
 		panic(err)
 	}

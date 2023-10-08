@@ -19,8 +19,8 @@ func createConfig() {
 func Install(command core.PackageManagerInstallCommand) {
 	install(command)
 	createConfig()
-	core.WriteScript("lint", "eslint src")
-	core.WriteScript("lint:fix", "eslint src --fix")
+	core.WriteScript("check:lint", "eslint src")
+	core.WriteScript("fix:lint", "eslint src --fix")
 }
 
 var config = `{
