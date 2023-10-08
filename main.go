@@ -14,14 +14,15 @@ import (
 )
 
 func main() {
-	command := package_managers.Choose()
+	installOneCommand, installAllCommand := package_managers.Choose()
 	editorconfig.Install()
 	types.Install()
-	concurrently.Install(command)
-	prettier.Install(command)
-	eslint.Install(command)
-	stylelint.Install(command)
-	husky.Install(command)
-	lint_staged.Install(command)
+	concurrently.Install(installOneCommand)
+	prettier.Install(installOneCommand)
+	eslint.Install(installOneCommand)
+	stylelint.Install(installOneCommand)
+	husky.Install(installOneCommand)
+	lint_staged.Install(installOneCommand)
 	core.RemoveCapsInDeps()
+	core.ReInstallAll((installAllCommand))
 }

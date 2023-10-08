@@ -36,6 +36,15 @@ func InstallLib(command PackageManagerInstallCommand, libName string) {
 	}
 }
 
+func ReInstallAll(command PackageManagerInstallCommand) {
+	cmd := exec.Command(command[0], command[1])
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	if err := cmd.Run(); err != nil {
+		panic(err)
+	}
+}
+
 func WriteScript(scriptName string, scriptValue string) {
 	packageJSON := openJSONFile(PACKAGE_JSON)
 
